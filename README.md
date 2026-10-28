@@ -1,119 +1,63 @@
-<div align="center">
+<p align="center">
+  <img src="feature-graphic.png" alt="Fund Manager Game" width="720">
+</p>
 
-# 📈 Fund Manager Game
+<h1 align="center">Fund Manager Game</h1>
 
-**Start as an intern. Retire as a legend, or go broke trying.**
+<p align="center"><b>Make money. Don't get fired.</b><br>
+An offline investing career game for Android, built with Expo and React Native.<br></p>
 
-A mobile investing game for Android and iOS. Manage other people's money, beat the market's bots, and build a career from age 22 to 65.
-
-![Status](https://img.shields.io/badge/status-in%20development-orange)
-![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20iOS-blue)
-![Expo](https://img.shields.io/badge/Expo-SDK%2058-000020?logo=expo&logoColor=white)
-![React Native](https://img.shields.io/badge/React%20Native-0.88-61DAFB?logo=react&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript&logoColor=white)
-![Offline](https://img.shields.io/badge/works-fully%20offline-brightgreen)
-
-</div>
-
-> 🔒 The source code is private. This page shows what the game is, how it's built, and where it's heading.
+<p align="center">
+  <img alt="Expo SDK 58" src="https://img.shields.io/badge/Expo-SDK%2058-000?logo=expo">
+  <img alt="React Native" src="https://img.shields.io/badge/React%20Native-TypeScript-3178c6?logo=typescript&logoColor=white">
+  <img alt="Offline" src="https://img.shields.io/badge/works-offline-0c8a5f">
+</p>
 
 ---
 
-## 🎮 The idea
+## The game
 
-Most investing games are either spreadsheets or slot machines. Fund Manager Game sits in between: it has real market maths underneath, but it plays as a fast, emotional arcade game.
+**The goal: become the richest person in the world.**
 
-Markets have moods. A calm year rewards patience; a crisis punishes greed. Crashes hit without warning, and you get **8 seconds** to decide: sell, hold, or buy the dip. Throughout, a cold, calculating trading bot called **the Quant** runs the same money next to you. Beat it and you're promoted. Lose to it too often and you're fired.
+You start at 22 as an intern at an investment firm with almost nothing. Climb from Intern to Partner, start your own fund, and grow your fortune until you top the city, country and world rich lists.
 
-*It's a simulation, not investment advice. No real money is ever involved.*
+- **A living market.** Made-up companies in seven sectors, plus an index, bonds, gold and five crypto coins, move day by day on a running clock that you can pause and speed up. Booms, bear markets, crashes, rate moves, earnings days, takeovers and busts all happen.
+- **The job.** You run the clients' money. You face meetings with real questions, client inflows and redemptions, analyst pitches, and calls from the risk desk. Your boss judges your own results, and the Quant, a rules-based computer portfolio, is the yardstick.
+- **Your own money.** You choose a lifestyle, pay taxes, buy homes, cars, jets and an island, borrow on margin or take a mortgage, and manage status. Going bankrupt is the only game over.
+- **Your own company.** You hire staff, pick a strategy and fees, market the fund, open offices, and watch for buyout offers.
+- **Three difficulties.** Easy, Hard and Impossible. Reaching number one in the world is realistic on Easy, rare on Hard, and almost out of reach on Impossible, which plays like real life.
+- **Training.** Four short lessons teach diversification, holding through drops, insurance and risk before the career starts.
 
----
+Everything happens on the device. There are no accounts, ads, in-app purchases or data collection.
 
-## 🕹️ Two ways to play
+> A simulation game. Not investment advice. No real money.
 
-### ⚡ Arcade: quick contracts, big decisions
+> ## Screenshots
 
-A 5-year contract takes a few minutes to play. You get $1M of a client's money and 3 hearts. Every losing year costs a heart.
+<p align="center">
+  <img src="screenshots/1.png" width="200">
+  <img src="screenshots/2.png" width="200">
+  <img src="screenshots/3.png" width="200">
+  <img src="screenshots/4.png" width="200">
+</p>
 
-| Mode | What it is |
-|---|---|
-| **Campaign** | 4 chapters, from *Intern Desk* to *Hedge Fund*. Each adds a new mechanic: gold, crash reactions, surprise months, insurance, tech stocks, client targets. |
-| **Endless** | No end date. Cards come back and hearts heal now and then. How long can you last? |
-| **Daily Challenge** | Everyone in the world plays the same markets today. Share your result as an emoji grid. |
+## Under the hood
 
-The meta-game has **25 badges**, XP levels, unlockable outfits and three-star chapter ratings.
+- **A pure TypeScript engine** (`src/engine/`) with no React imports, so every rule can be tested in Node.
+- **Deterministic and seeded.** All randomness goes through seeded mulberry32 streams, one per purpose, so the market never depends on what the player does.
+- **A factor-model market.** Each stock moves with the market, its sector and its own noise, with jumps on top. Economic phases are hidden behind the economists' late read. Drifts are set so the expected returns hold, and statistical tests check that they do.
+- **The Quant** is a mean-variance optimizer (FISTA projected gradient with a VaR bisection) that is checked against a brute-force grid.
+- **Golden tests.** The original web mini-game runs in a Node `vm`, and the port reproduces its numbers bit for bit, including over 300 random scripted games.
+- **Balance harness.** Scripted players (cash, index, Quant, reckless, founder) play whole careers, and the tests check that the outcomes rank sensibly in each difficulty.
+- **Generated audio and art.** The 8-bit sound effects and the lounge-jazz music are rendered from code by Node scripts, so the same input gives the same file. The icons, splash and store art are SVG, rendered with headless Edge.
+- **A save system you can trust.** The save is versioned and migrated through 20 versions. Writes are throttled, and an unreadable save is backed up before the game starts fresh.
 
-### 🏢 Career: a whole life in finance *(in progress)*
+## Stack
 
-A Paradox-style sandbox on a live clock. Pause it, speed it up, and watch a career unfold day by day.
+Expo SDK 58 · React Native · TypeScript · expo-router · zustand · react-native-svg · expo-audio · expo-haptics · AsyncStorage · Jest · EAS Build
 
-```mermaid
-flowchart LR
-    A[🎓 Intern at 22] --> B[📊 Analyst]
-    B --> C[💼 Portfolio Manager]
-    C --> D[🏛️ Partner]
-    C --> E[🚀 Start your own fund]
-    D --> F[🏖️ Retire at 65]
-    E --> F
-    B -.fired.-> G[📋 Job board]
-    G --> B
-    A -.debt.-> H[💀 Bankrupt]
-```
+## Credits
 
-- **🌍 A living market:** 25 invented companies in seven sectors, with earnings days, central bank meetings, booms, crashes, bankruptcies, takeovers and new listings. The market never cares what you do.
-- **👔 The job:** 14 firms, from small boutiques to elite houses. Your boss's trust rises and falls with your results. There are reviews twice a year, promotions, bonuses, and a job board with real interviews.
-- **🎤 Meetings with consequences:** clients and bosses ask what happens next: the market, a sector, a stock. Three months later the market tells everyone whether you were right. Your track record becomes your reputation.
-- **💰 Your own money:** spend your salary on a lifestyle, a car or a penthouse, invest the rest, and watch your status climb. Run out of cash and your debts catch up with you. Bankruptcy is the only true game over.
-- **🏦 Your own company:** found a fund and run it as the boss. Hire analysts and portfolio managers, pick a strategy, set fees, run marketing campaigns, open offices, and one day sell it all.
+The game grew out of the *The Investor* mini-game in [calculus-meets-finance](https://github.com/ahmetozturk86/calculus-meets-finance). The font is Nunito (SIL Open Font License). The game was built with the help of AI ([Claude Code](https://claude.com/claude-code)). Every company, person and market in the game is invented.
 
----
-
-## 📸 Screenshots
-
-*Coming soon.*
-
----
-
-## 🛠️ How it's built
-
-| Area | Choice |
-|---|---|
-| App | Expo SDK 58 · React Native 0.88 · TypeScript |
-| Navigation and state | expo-router · zustand, with versioned save migrations |
-| Graphics and feel | react-native-svg · 8-bit sound effects · haptics · confetti |
-| Testing | Jest · 20 test suites |
-
-**Engineering highlights**
-
-- **🧠 A pure game engine.** Every rule lives in plain TypeScript with no UI code, so the whole game can be simulated and tested without a phone.
-- **🎯 Golden tests.** The arcade engine is checked number for number against the original web game, across 300 randomly played 5-year games. If one number drifts, the build fails.
-- **📐 Real finance maths.** It has a factor model for daily stock returns, correlated sectors, crash and jump processes, and a portfolio optimiser that maximises growth under a value-at-risk limit (that's the Quant). Statistical tests check that every market phase averages what it should.
-- **🎲 Deterministic randomness.** Seeded random streams mean a seed always replays the same market, whatever the player does. That's what makes the Daily Challenge fair.
-- **📴 Offline first.** There are no accounts, ads, tracking or in-app purchases, and no personal data is collected.
-
----
-
-## 🗺️ Roadmap
-
-- [x] Arcade: campaign, endless and Daily Challenge
-- [x] Badges, levels, outfits, sound, haptics and a tutorial
-- [x] Career: living market, jobs and promotions, job board
-- [x] Career: meetings, predictions and reputation
-- [x] Career: personal finances, status and your own company
-- [ ] Career: margin trading and loans
-- [ ] Balancing and polish
-- [ ] Release on **Google Play** and the **App Store**
-
----
-
-## 🌱 Origin
-
-The game grew out of the *Fund Manager* mini-game in my [calculus-meets-finance](https://github.com/ahmetozturk86/calculus-meets-finance) project: a small browser game about risk and return that turned into something much bigger.
-
-<div align="center">
-
-**Made by [@ahmetozturk86](https://github.com/ahmetozturk86)**
-
-⭐ Star this repo to follow the progress.
-
-</div>
+A simulation game. Not investment advice. No real money.
