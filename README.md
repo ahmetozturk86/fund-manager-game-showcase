@@ -39,6 +39,10 @@ Everything happens on the device. There are no accounts, ads, in-app purchases o
   <img src="screenshots/screenshots2.png" width="200">
   <img src="screenshots/screenshots3.png" width="200">
   <img src="screenshots/screenshots4.png" width="200">
+  <img src="screenshots/screenshots5.png" width="200">
+  <img src="screenshots/screenshots6.png" width="200">
+  <img src="screenshots/screenshots7.png" width="200">
+  <img src="screenshots/screenshots8.png" width="200">
 </p>
 
 ## Under the hood
